@@ -1,26 +1,51 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+ <the-header @switchPage="switchPage" />
+ <main class="container">
+  <KeepAlive>
+   <component
+    v-model="children"
+    @personalData="savePersonalData"
+    :personalData="personalData"
+    :is="currentPage"
+   />
+  </KeepAlive>
+ </main>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import { ref } from 'vue';
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+const currentPage = ref('UserForm');
+const personalData = ref(null);
+
+//Принимает данные из UserForm чтобы передать в UserPreview
+function savePersonalData(value) {
+ personalData.value = value;
+}
+
+//Переключение страниц
+function switchPage(page) {
+ currentPage.value = page;
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+* {
+ font-family: 'Montserrat', sans-serif;
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ list-style: none;
+}
+.container {
+ width: 100vw;
+ display: flex;
+ justify-content: center;
+}
+@media screen and (max-width: 550px) {
+ .container {
+  padding-bottom: 20px;
+ }
 }
 </style>
